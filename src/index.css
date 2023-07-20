@@ -114,7 +114,7 @@ input {
 
 .clear-completed:hover {
   background: rgb(104, 104, 106);
-  color: #886d6d;
+  color: #f6f6f6;
 }
 
 .task i {
