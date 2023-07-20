@@ -134,7 +134,7 @@ npm run build
 
 👤 Uzair Manzoor
 
-- GitHub: [@kit0-0](https://github.com/Uzair-Manzoor)
+- GitHub: [@Uzair-Manzoor](https://github.com/Uzair-Manzoor)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
