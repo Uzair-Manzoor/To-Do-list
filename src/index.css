@@ -1,6 +1,6 @@
 :root {
-  --primary: #ddd;
-  --secondary: #e5d4d4;
+  --primary: #d8e5f7;
+  --secondary: #d5dae4;
 }
 
 html,
@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--primary);
+  font-family: Arial, sans-serif;
 }
 
 body {
@@ -19,4 +20,107 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+.container {
+  background-color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-top: 12px;
+}
+
+.container > * {
+  border-bottom: 1px solid #8a8a8a40;
+  padding: 0 0.7em;
+}
+
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+input {
+  border-color: transparent;
+  padding: 0.7em;
+  outline: none;
+}
+
+.input-task {
+  width: 90%;
+  position: relative;
+}
+
+.input-field {
+  position: relative;
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+}
+
+.input-field label {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  font-size: 16px;
+  color: #555;
+  pointer-events: none;
+  transition: 0.2s ease-out;
+}
+
+.input-field input:focus ~ label {
+  top: -20px;
+  left: 2px;
+  color: #777;
+  font-size: 14px;
+}
+
+#addBtn {
+  width: 11%;
+  font-size: 2rem;
+  position: absolute;
+  background-color: transparent;
+  border-color: transparent;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.list-container-section {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.list-container-section li {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.5em;
+  border-bottom: 1px solid #c1c1c2;
+}
+
+.todo-list {
+  padding-left: 0;
+}
+
+.clear-completed {
+  width: 100%;
+  padding: 0.5em;
+}
+
+.clear-completed:hover {
+  background: rgb(104, 104, 106);
+  color: #f6f6f6;
+}
+
+.task i {
+  margin-left: auto;
+}
+
+.fa-ellipsis-vertical:hover {
+  cursor: move;
 }
