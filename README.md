@@ -59,7 +59,7 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](comming soon)
+- [Live Demo Link](https://uzair-manzoor.github.io/To-Do-list/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
