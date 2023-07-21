@@ -1,42 +1,129 @@
 import './index.css';
+import {
+  tasks, deleteTask, editTask, addTask,
+} from './module/taskFunctions.js';
 
-const taskListContainer = document.getElementById('todoList');
-const tasks = [
-  {
-    description: 'Complete AwesomeBooks',
-    completed: true,
-    index: 1,
-  },
-  {
-    description: 'Complete Webpack Setup',
-    completed: true,
-    index: 2,
-  },
-  {
-    description: 'Complete todo list project',
-    completed: false,
-    index: 3,
-  },
-];
+import updateStatus from './module/statusFunctions.js';
+import clearAllCompletedTasks from './module/clearTask.js';
+import { dragStart, dragOver, drop } from './module/dragAndDrop.js';
 
-export default class DisplayTasks {
-  static renderTasks() {
-    tasks.sort((a, b) => a.index - b.index);
-    taskListContainer.innerHTML = '';
-    tasks.forEach((task, index) => {
-      taskListContainer.innerHTML += `
-        <li class="task" draggable="true" data-index="${index}">
-          <div class="checkbox-container">
-            <input type="checkbox" name="${task.description}" ${task.completed ? 'checked' : ''}>
-            <input type="text" value="${task.description}" readonly>
-          </div>
-          <i class="fas fa-ellipsis-vertical" data-index="${index}"></i>
-        </li>
-      `;
+const todoListContainer = document.getElementById('todoList');
+const addBtn = document.getElementById('addBtn');
+const clearBtn = document.querySelector('.clear-completed');
+
+const displayTasks = () => {
+  todoListContainer.textContent = '';
+  tasks.forEach((task, index) => {
+    todoListContainer.innerHTML += `
+      <li class="task" draggable="true" data-index="${index}">
+        <div class="checkbox-container">
+          <input type="checkbox" name="${task.description}" ${task.completed ? 'checked' : ''}>
+          <input type="text" value="${task.description}" readonly>
+        </div>
+        <i class="fas fa-ellipsis-vertical" data-index="${index}"></i>
+      </li>
+    `;
+  });
+
+  const addedTasks = document.querySelectorAll('.task');
+
+  const checkboxContainers = document.querySelectorAll('.task > .checkbox-container > input[type="checkbox"]');
+
+  checkboxContainers.forEach((checkbox) => {
+    const inputText = checkbox.nextElementSibling;
+    let previousState = checkbox.checked;
+
+    inputText.readOnly = true;
+
+    checkbox.addEventListener('change', (event) => {
+      const currentState = event.target.checked;
+
+      if (currentState !== previousState) {
+        const foundTask = tasks.find((task) => task.description === inputText.value);
+        if (foundTask) {
+          foundTask.completed = currentState;
+          updateStatus(tasks.indexOf(foundTask), currentState);
+        }
+      }
+
+      previousState = currentState;
     });
-  }
-}
+  });
 
-document.addEventListener('DOMContentLoaded', () => {
-  DisplayTasks.renderTasks();
+  addedTasks.forEach((task, index) => {
+    const textInput = task.querySelector('input[type="text"]');
+    task.addEventListener('dblclick', () => {
+      textInput.readOnly = false;
+      if (task.querySelector('.fa-ellipsis-vertical')) {
+        const ellipsisIcon = task.querySelector('.fa-ellipsis-vertical');
+        ellipsisIcon.classList.remove('fa-ellipsis-vertical');
+        ellipsisIcon.classList.add('fa-trash');
+        ellipsisIcon.addEventListener('click', () => {
+          deleteTask(index);
+          displayTasks();
+        });
+      } else {
+        const trashIcon = task.querySelector('.fa-trash');
+        trashIcon.classList.remove('fa-trash');
+        trashIcon.classList.add('fa-ellipsis-vertical');
+        textInput.readOnly = true;
+      }
+    });
+
+    // Edit
+    textInput.addEventListener('input', () => {
+      const data = textInput.value.trim();
+      editTask(data, index);
+    });
+
+    // Drag and drop
+    task.addEventListener('dragstart', dragStart);
+    task.addEventListener('dragover', dragOver);
+    task.addEventListener('drop', drop);
+  });
+};
+
+const initializeTasks = () => {
+  document.addEventListener('DOMContentLoaded', displayTasks);
+};
+
+const refreshPage = () => {
+  localStorage.removeItem('Tasks');
+  window.location.reload();
+};
+
+clearBtn.addEventListener('click', () => {
+  clearAllCompletedTasks();
+  displayTasks();
 });
+
+initializeTasks();
+addBtn.addEventListener('click', () => {
+  const inputField = document.getElementById('input-task');
+  const taskDescription = inputField.value.trim();
+
+  // Check if the task description is not empty
+  if (taskDescription !== '') {
+    addTask(taskDescription);
+    inputField.value = '';
+    displayTasks();
+  }
+});
+document.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const inputField = document.getElementById('input-task');
+    const taskDescription = inputField.value.trim();
+
+    // Check if the task description is not empty
+    if (taskDescription !== '') {
+      addTask(taskDescription);
+      inputField.value = '';
+      displayTasks();
+    }
+  }
+});
+document.querySelector('.fa-arrows-rotate').addEventListener('click', refreshPage);
+// Add event listener to update the display
+document.addEventListener('updateDisplay', displayTasks);
+
+export {};
