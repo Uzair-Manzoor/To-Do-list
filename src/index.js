@@ -1,18 +1,15 @@
 import './index.css';
+import {
+  tasks, deleteTask, editTask, addTask,
+} from './module/taskFunctions.js';
+
+import updateStatus from './module/statusFunctions.js';
+import clearAllCompletedTasks from './module/clearTask.js';
+import { dragStart, dragOver, drop } from './module/dragAndDrop.js';
 
 const todoListContainer = document.getElementById('todoList');
 const addBtn = document.getElementById('addBtn');
-const tasks = JSON.parse(localStorage.getItem('Tasks')) || [];
-
-const storeTasksToLocalStorage = () => {
-  localStorage.setItem('Tasks', JSON.stringify(tasks));
-};
-
-const sortTasks = () => {
-  tasks.forEach((task, index) => {
-    task.index = index + 1;
-  });
-};
+const clearBtn = document.querySelector('.clear-completed');
 
 const displayTasks = () => {
   todoListContainer.textContent = '';
@@ -27,23 +24,6 @@ const displayTasks = () => {
       </li>
     `;
   });
-
-  const deleteTask = (item, index) => {
-    item.addEventListener('click', () => {
-      tasks.splice(index, 1);
-      tasks.forEach((task, newIndex) => {
-        task.index = newIndex + 1;
-      });
-      sortTasks();
-      storeTasksToLocalStorage();
-      displayTasks();
-    });
-  };
-
-  const editTask = (description, index) => {
-    tasks[index].description = description;
-    storeTasksToLocalStorage();
-  };
 
   const addedTasks = document.querySelectorAll('.task');
 
@@ -62,7 +42,7 @@ const displayTasks = () => {
         const foundTask = tasks.find((task) => task.description === inputText.value);
         if (foundTask) {
           foundTask.completed = currentState;
-          storeTasksToLocalStorage();
+          updateStatus(tasks.indexOf(foundTask), currentState);
         }
       }
 
@@ -78,7 +58,10 @@ const displayTasks = () => {
         const ellipsisIcon = task.querySelector('.fa-ellipsis-vertical');
         ellipsisIcon.classList.remove('fa-ellipsis-vertical');
         ellipsisIcon.classList.add('fa-trash');
-        deleteTask(ellipsisIcon, index);
+        ellipsisIcon.addEventListener('click', () => {
+          deleteTask(index);
+          displayTasks();
+        });
       } else {
         const trashIcon = task.querySelector('.fa-trash');
         trashIcon.classList.remove('fa-trash');
@@ -92,25 +75,12 @@ const displayTasks = () => {
       const data = textInput.value.trim();
       editTask(data, index);
     });
+
+    // Drag and drop
+    task.addEventListener('dragstart', dragStart);
+    task.addEventListener('dragover', dragOver);
+    task.addEventListener('drop', drop);
   });
-};
-
-const addTask = () => {
-  const inputField = document.getElementById('input-task');
-  const taskDescription = inputField.value.trim();
-
-  // Check if the task description is not empty
-  if (taskDescription !== '') {
-    const newTask = {
-      description: taskDescription,
-      completed: false,
-      index: tasks.length + 1, // Set the index as array length + 1
-    };
-    tasks.push(newTask);
-    storeTasksToLocalStorage();
-    inputField.value = '';
-    displayTasks();
-  }
 };
 
 const initializeTasks = () => {
@@ -122,13 +92,38 @@ const refreshPage = () => {
   window.location.reload();
 };
 
+clearBtn.addEventListener('click', () => {
+  clearAllCompletedTasks();
+  displayTasks();
+});
+
 initializeTasks();
-addBtn.addEventListener('click', addTask);
+addBtn.addEventListener('click', () => {
+  const inputField = document.getElementById('input-task');
+  const taskDescription = inputField.value.trim();
+
+  // Check if the task description is not empty
+  if (taskDescription !== '') {
+    addTask(taskDescription);
+    inputField.value = '';
+    displayTasks();
+  }
+});
 document.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
-    addTask();
+    const inputField = document.getElementById('input-task');
+    const taskDescription = inputField.value.trim();
+
+    // Check if the task description is not empty
+    if (taskDescription !== '') {
+      addTask(taskDescription);
+      inputField.value = '';
+      displayTasks();
+    }
   }
 });
 document.querySelector('.fa-arrows-rotate').addEventListener('click', refreshPage);
+// Add event listener to update the display
+document.addEventListener('updateDisplay', displayTasks);
 
 export {};
