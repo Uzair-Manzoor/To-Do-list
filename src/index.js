@@ -9,7 +9,7 @@ import { dragStart, dragOver, drop } from './module/dragAndDrop.js';
 
 const todoListContainer = document.getElementById('todoList');
 const addBtn = document.getElementById('addBtn');
-const clearBtn = document.querySelector('.clear-completed');
+const clearBtn = document.querySelector('.clear-completed-tasks');
 
 const displayTasks = () => {
   todoListContainer.textContent = '';
@@ -109,6 +109,7 @@ addBtn.addEventListener('click', () => {
     displayTasks();
   }
 });
+
 document.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     const inputField = document.getElementById('input-task');
@@ -122,8 +123,9 @@ document.addEventListener('keypress', (e) => {
     }
   }
 });
-document.querySelector('.fa-arrows-rotate').addEventListener('click', refreshPage);
+
+document.querySelector('.rotate-icon').addEventListener('click', refreshPage);
+
 // Add event listener to update the display
 document.addEventListener('updateDisplay', displayTasks);
-
 export {};
