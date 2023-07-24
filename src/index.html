@@ -12,21 +12,21 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <main class="container">
-    <header class="title-section">
-      <h4>Today's To Do</h4><i class="fa-solid fa-arrows-rotate" aria-label="Rotate icon"></i>
+  <main class="todo-app-container">
+    <header class="todo-app-title">
+      <h4>Today's To-Do List</h4><i class="rotate-icon fas fa-sync"></i>
     </header>
-    <section class="form-field-section">
-      <form action="submit" class="input-field">
-        <input type="text" id="input-task" class="input-task" autocomplete="off" required>
+    <section class="todo-app-form">
+      <form action="submit" class="task-input-form">
+        <input type="text" id="input-task" class="task-input" autocomplete="off" required>
         <label for="input-task">Add your task here...</label>
         <input type="button" id="addBtn" value="+">
       </form>
     </section>
-    <section class="list-container-section">
-      <ul class="todo-list" id="todoList">
+    <section class="todo-app-list-container">
+      <ul class="task-list" id="todoList">
       </ul>
-      <input type="button" class="clear-completed" value="Clear all completed">
+      <input type="button" class="clear-completed-tasks" value="Clear all completed">
     </section>
   </main>
 </body>
