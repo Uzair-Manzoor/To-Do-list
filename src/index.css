@@ -1,6 +1,9 @@
 :root {
-  --primary: #d8e5f7;
-  --secondary: #d5dae4;
+  --primary: #534334;
+  --secondary: #c5c9e9;
+  --primary-rgb: 255, 204, 128;
+  --secondary-rgb: 128, 201, 255;
+  --dark-gray: 56, 56, 56;
 }
 
 html,
@@ -16,6 +19,21 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  animation: gradientAnimation 8s linear infinite;
+  background-size: 200% 200%;
+  background-image: linear-gradient(45deg, #ff0000a5, rgb(0, 0, 255));
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 * {
@@ -31,7 +49,7 @@ body {
 }
 
 .todo-app-container > * {
-  border-bottom: 1px solid #8a8a8a40;
+  border-bottom: 1px solid rgba(var(--dark-gray), 0.4);
   padding: 0 0.7em;
 }
 
@@ -65,7 +83,7 @@ input {
   top: 0;
   left: 1rem;
   font-size: 16px;
-  color: #555;
+  color: rgba(var(--dark-gray), 0.8);
   pointer-events: none;
   transition: 0.2s ease-out;
 }
@@ -73,7 +91,7 @@ input {
 .task-input:focus ~ label {
   top: -20px;
   left: 2px;
-  color: #777;
+  color: rgba(var(--dark-gray), 0.9);
   font-size: 14px;
 }
 
@@ -100,7 +118,7 @@ input {
   align-items: center;
   gap: 0.7em;
   padding: 0.5em;
-  border-bottom: 1px solid #c1c1c2;
+  border-bottom: 1px solid rgba(var(--dark-gray), 0.2);
 }
 
 .task-list {
@@ -110,11 +128,14 @@ input {
 .clear-completed-tasks {
   width: 100%;
   padding: 0.5em;
+  background: rgb(var(--dark-gray));
+  color: #d1d1d1;
+  cursor: pointer;
 }
 
 .clear-completed-tasks:hover {
-  background: rgb(104, 104, 106);
-  color: #f6f6f6;
+  background: rgb(var(--dark-gray), 0.8);
+  color: #cecece;
 }
 
 .task i {
