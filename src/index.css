@@ -1,6 +1,9 @@
 :root {
-  --primary: #d8e5f7;
-  --secondary: #d5dae4;
+  --primary: #534334;
+  --secondary: #c5c9e9;
+  --primary-rgb: 255, 204, 128;
+  --secondary-rgb: 128, 201, 255;
+  --dark-gray: 56, 56, 56;
 }
 
 html,
@@ -16,13 +19,30 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  animation: gradientAnimation 8s linear infinite;
+  background-size: 200% 200%;
+  background-image: linear-gradient(45deg, #ff0000a5, rgb(0, 0, 255));
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 * {
   box-sizing: border-box;
 }
 
-.container {
+.todo-app-container {
   background-color: var(--secondary);
   display: flex;
   flex-direction: column;
@@ -30,12 +50,12 @@ body {
   padding-top: 12px;
 }
 
-.container > * {
-  border-bottom: 1px solid #8a8a8a40;
+.todo-app-container > * {
+  border-bottom: 1px solid rgba(var(--dark-gray), 0.4);
   padding: 0 0.7em;
 }
 
-.title-section {
+.todo-app-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,32 +68,32 @@ input {
   outline: none;
 }
 
-.input-task {
+.task-input {
   width: 90%;
   position: relative;
 }
 
-.input-field {
+.task-input-form {
   position: relative;
   margin: 1em 0;
   display: flex;
   align-items: center;
 }
 
-.input-field label {
+.task-input-form label {
   position: absolute;
   top: 0;
   left: 1rem;
   font-size: 16px;
-  color: #555;
+  color: rgba(var(--dark-gray), 0.8);
   pointer-events: none;
   transition: 0.2s ease-out;
 }
 
-.input-field input:focus ~ label {
+.task-input:focus ~ label {
   top: -20px;
   left: 2px;
-  color: #777;
+  color: rgba(var(--dark-gray), 0.9);
   font-size: 14px;
 }
 
@@ -89,32 +109,35 @@ input {
   cursor: pointer;
 }
 
-.list-container-section {
+.todo-app-list-container {
   display: flex;
   flex-direction: column;
   padding: 0;
 }
 
-.list-container-section li {
+.todo-app-list-container li {
   display: flex;
   align-items: center;
   gap: 0.7em;
   padding: 0.5em;
-  border-bottom: 1px solid #c1c1c2;
+  border-bottom: 1px solid rgba(var(--dark-gray), 0.2);
 }
 
-.todo-list {
+.task-list {
   padding-left: 0;
 }
 
-.clear-completed {
+.clear-completed-tasks {
   width: 100%;
   padding: 0.5em;
+  background: rgb(var(--dark-gray));
+  color: #d1d1d1;
+  cursor: pointer;
 }
 
-.clear-completed:hover {
-  background: rgb(104, 104, 106);
-  color: #f6f6f6;
+.clear-completed-tasks:hover {
+  background: rgb(var(--dark-gray), 0.8);
+  color: #cecece;
 }
 
 .task i {
