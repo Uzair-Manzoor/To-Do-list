@@ -1,6 +1,6 @@
 import 'jest-localstorage-mock';
 
-import { addTask, deleteTask, tasks } from '../taskFunctions';
+import { addTask, deleteTask, tasks } from '../taskFunctions.js';
 
 // Mock localStorage
 const localStorageMock = {
