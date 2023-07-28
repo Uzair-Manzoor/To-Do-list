@@ -27,3 +27,18 @@ describe('updateStatus', () => {
 
     expect(tasks[index].completed).toBe(newCompletedStatus);
   });
+  test('should update the tasks in localStorage', () => {
+    const index = 1;
+    const newCompletedStatus = true;
+
+    updateStatus(index, newCompletedStatus);
+
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'Tasks',
+      JSON.stringify([
+        { description: 'Task 1', completed: false, index: 1 },
+        { description: 'Task 2', completed: newCompletedStatus, index: 2 },
+      ]),
+    );
+  });
+});
