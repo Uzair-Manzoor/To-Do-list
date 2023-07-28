@@ -27,6 +27,7 @@ describe('updateStatus', () => {
 
     expect(tasks[index].completed).toBe(newCompletedStatus);
   });
+
   test('should update the tasks in localStorage', () => {
     const index = 1;
     const newCompletedStatus = true;
