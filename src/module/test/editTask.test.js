@@ -17,7 +17,7 @@ describe('Task Functions', () => {
       const description = 'New description';
       tasks.push({ description: 'Old description', completed: false, index: 1 });
 
-      // Act
+      // A
       editTask(description, 0);
 
       // Assert
